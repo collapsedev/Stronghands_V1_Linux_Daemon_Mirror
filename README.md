@@ -53,24 +53,15 @@ Important: We do not accept translation changes as GitHub pull requests because 
 
 Standard build tool is Qt `qmake`, the following is executed in /home/${USER}.
 
-    sudo apt-get install ntp git build-essential libssl-dev libdb-dev libdb++-dev libqrencode-dev libboost-dev qt5-default qt5-qmake -y
-    sudo apt-get install libprotoc-dev libprotobuf-dev -y
-    sudo apt-get install libpng-dev qrencode -y
-    sudo apt-get install libqrencode-dev -y
-    git clone https://github.com/bumbacoin/stronghands-012x
-    cd stronghands-012x
-    qmake USE_O3=1 USE_QRCODE=1 FIRST_CLASS_MESSAGING=1 RELEASE=1 USE_UPNPC=1 stronghands.pro
+    sudo apt-get install ntp git build-essential libssl-dev libdb-dev libdb++-dev libqrencode-dev libboost-all-dev libminiupnpc-dev qt5-default qt5-qmake qttools5-dev-tools -y
+    git clone https://github.com/bumbacoin/stronghands
+    cd stronghands
+    qmake USE_O3=1 FIRST_CLASS_MESSAGING=1 RELEASE=1 USE_UPNPC=1 stronghands.pro
     make
 
 if you get error
-Error in 'src/qt/bitcoin.qrc': Cannot find file 'locale/bitcoin_zh_TW.qm'
-
-    sudo apt-get install qttools5-dev-tools
-
-then qmake
-
-or error undefined reference to symbol 'dlclose@@GLIBC_2.2.5'
-add to stronghands.pro #452
+    undefined reference to symbol 'dlclose@@GLIBC_2.2.5'
+add to stronghands.pro  #407
 
         # prevents error "undefined reference to symbol dlclose@@GLIBC_2.2.5" when using `-Wl,-Bstatic`
         LIBS += -ldl
