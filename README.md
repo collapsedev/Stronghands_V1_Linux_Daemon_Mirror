@@ -56,7 +56,7 @@ Standard build tool is Qt `qmake`, the following is executed in /home/${USER}.
     sudo apt-get install ntp git build-essential libssl-dev libdb-dev libdb++-dev libqrencode-dev libboost-all-dev libminiupnpc-dev qt5-default qt5-qmake qttools5-dev-tools -y
     git clone https://github.com/bumbacoin/stronghands
     cd stronghands
-    qmake USE_O3=1 FIRST_CLASS_MESSAGING=1 RELEASE=1 USE_UPNPC=1 stronghands.pro
+    qmake USE_O3=1 FIRST_CLASS_MESSAGING=1 USE_UPNPC=1 stronghands.pro
     make
 
 if you get error
