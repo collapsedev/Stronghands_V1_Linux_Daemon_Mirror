@@ -3,7 +3,8 @@ this is a short term extension of v0122
 it will be deprecated soon by an updated code base
 
 
-
+# Web
+https://bitcointalk.org/index.php?topic=2709780.0
 
 
 # StrongHands Official Development Repository
