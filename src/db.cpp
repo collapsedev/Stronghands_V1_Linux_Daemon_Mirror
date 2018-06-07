@@ -92,6 +92,24 @@ CDB::CDB(const char *pszFile, const char* pszMode) : pdb(NULL)
             filesystem::path pathErrorFile = pathDataDir / "db.log";
             printf("dbenv.open LogDir=%s ErrorFile=%s\n", pathLogDir.string().c_str(), pathErrorFile.string().c_str());
 
+            // LoadBlockIndex: Disk seek is very slow. We will try to load database in OS cache. Only works when (database size) < (memory size).
+            filesystem::path pathtoidxfile = pathDataDir / "blkindex.dat";
+            struct stat st;
+            stat(pathtoidxfile.string().c_str(), &st);
+            printf("Loading database file through DMA %lu bytes\n",st.st_size);
+            int fd = open(pathtoidxfile.string().c_str(), O_RDONLY, 0);
+            if(fd != -1) {
+                void* mmappedData = mmap(NULL, st.st_size, PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
+                if (mmappedData == MAP_FAILED) {
+                    printf("Database preload fail. Too few memory?\n",st.st_size);
+                }else{
+                    int rc = munmap(mmappedData, st.st_size);
+                    if(rc != 0) printf("Database preload error on unmap\n",st.st_size);
+            }
+            close(fd);
+            }
+            //
+                        
             int nDbCache = GetArg("-dbcache", 25);
             dbenv.set_lg_dir(pathLogDir.string().c_str());
             dbenv.set_cachesize(nDbCache / 1024, (nDbCache % 1024)*1048576, 1);
