@@ -109,7 +109,11 @@ CDB::CDB(const char *pszFile, const char* pszMode) : pdb(NULL)
             close(fd);
             }
             //
-                        
+            
+            unsigned int nEnvFlags = 0;
+            if (GetBoolArg("-privdb", true))
+                nEnvFlags |= DB_PRIVATE;
+            
             int nDbCache = GetArg("-dbcache", 25);
             dbenv.set_lg_dir(pathLogDir.string().c_str());
             dbenv.set_cachesize(nDbCache / 1024, (nDbCache % 1024)*1048576, 1);
@@ -128,7 +132,8 @@ CDB::CDB(const char *pszFile, const char* pszMode) : pdb(NULL)
                              DB_INIT_MPOOL |
                              DB_INIT_TXN   |
                              DB_THREAD     |
-                             DB_RECOVER,
+                             DB_RECOVER    |
+                             nEnvFlags,
                              S_IRUSR | S_IWUSR);
             if (ret > 0)
                 throw runtime_error(strprintf("CDB() : error %d opening database environment", ret));
