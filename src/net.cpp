@@ -526,7 +526,8 @@ void CNode::CloseSocketDisconnect()
         printf("disconnecting node %s\n", addrName.c_str());
         closesocket(hSocket);
         hSocket = INVALID_SOCKET;
-        vRecv.clear();
+        TRY_LOCK(cs_vRecv, lockRecv); // Fix wallet crash
+        if (lockRecv) vRecv.clear();
     }
 }
 
