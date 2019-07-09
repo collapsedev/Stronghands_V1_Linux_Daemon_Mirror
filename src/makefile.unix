@@ -3,6 +3,13 @@
 # Distributed under the MIT/X11 software license, see the accompanying
 # file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
+CXXFLAGS=-mtune=native -march=native
+
+# Uncomment for portable DB
+#BDB_LIB_SUFFIX=-4.8
+#BDB_INCLUDE_PATH=/usr/include/libdb4/
+#BDB_LIB_PATH=/usr/include/libdb4/
+
 #BigNum OpenSSL requirement 1.0.X
 OPENSSL_INCLUDE_PATH=/usr/local/ssl/include
 OPENSSL_LIB_PATH=/usr/local/ssl/lib
